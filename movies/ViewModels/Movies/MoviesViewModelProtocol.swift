@@ -8,5 +8,12 @@
 import Foundation
 
 protocol MoviesViewModelProtocol: ObservableObject {
+    var movies: [MoviesModel] { get }
+    var isAlertPresented: Bool { get set }
+    var errorMessage: String? { get }
+
     func fetchMovies()
+
+    func sortyByPrice()
+    func sortByName()
 }

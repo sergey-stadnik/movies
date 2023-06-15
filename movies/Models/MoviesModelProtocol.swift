@@ -5,7 +5,7 @@
 //  Created by Sergii Stadnyk on 15.06.2023.
 //
 
-protocol MoviesModelProtocol: Decodable {
+protocol MoviesModelProtocol: Decodable, Identifiable {
     var id: String { get }
     var name: String { get }
     var price: Int { get }

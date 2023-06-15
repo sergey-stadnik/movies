@@ -12,6 +12,11 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     private(set) var networkService: NetworkServiceProtocol
     private(set) var cancellable = Set<AnyCancellable>()
 
+    @Published var movies: [MoviesModel] = []
+    @Published var isAlertPresented: Bool = false
+
+    var errorMessage: String?
+
     init(networkService: NetworkServiceProtocol = NetworkService()) {
         self.networkService = networkService
     }
@@ -23,13 +28,21 @@ final class MoviesViewModel: MoviesViewModelProtocol {
             .sink { [weak self] result in
                 switch result {
                 case .failure(let error):
-                    // TODO: Handle error
-                    break
+                    self?.errorMessage = error.localizedDescription
+                    self?.isAlertPresented = true
                 case .finished: break
                 }
             } receiveValue: { [weak self] modelResult in
                 guard let self = self else { return }
-                print("result")
+                self.movies = modelResult
             }.store(in: &cancellable)
+    }
+
+    func sortyByPrice() {
+        movies = movies.sorted { $0.price < $1.price }
+    }
+
+    func sortByName() {
+        movies = movies.sorted { $0.name < $1.name }
     }
 }
