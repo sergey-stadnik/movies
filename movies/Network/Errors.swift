@@ -12,6 +12,7 @@ enum NetworkServiceError: Error {
     case internalServerError
     case invalidResponse
     case unknown(code: Int, error: String)
+    case invalidJSON(_ error: String)
 }
 
 enum MoviesError: Error {

@@ -17,7 +17,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     }
 
     func fetchMovies() {
-        let publisher: AnyPublisher<Data, MoviesError> = networkService.listOfMovies()
+        let publisher: AnyPublisher<[MoviesModel], MoviesError> = networkService.fetchMovies()
 
         publisher
             .sink { [weak self] result in

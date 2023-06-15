@@ -17,6 +17,6 @@ enum HTTPMethod: String {
 }
 
 protocol NetworkServiceProtocol {
-    func listOfMovies() -> AnyPublisher<Data, MoviesError>
-    func movie(_ id: String) -> AnyPublisher<Data, MoviesError>
+    func fetchMovies<NetworkResponse: MoviesModelProtocol>() -> AnyPublisher<[NetworkResponse], MoviesError>
+    func fetchMovie<NetworkResponse: MovieModelProtocol>(_ id: String) -> AnyPublisher<[NetworkResponse], MoviesError>
 }

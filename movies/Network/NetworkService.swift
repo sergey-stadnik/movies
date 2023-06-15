@@ -19,14 +19,14 @@ class NetworkService: NetworkServiceProtocol {
 
     // MARK: Movies
 
-    func listOfMovies() -> AnyPublisher<Data, MoviesError> {
-        requestData(urlRequest: moviesListRequest())
+    func fetchMovies<NetworkResponse>() -> AnyPublisher<[NetworkResponse], MoviesError> where NetworkResponse : MoviesModelProtocol {
+        request(with: moviesListRequest())
             .mapError { MoviesError($0) }
             .eraseToAnyPublisher()
     }
 
-    func movie(_ id: String) -> AnyPublisher<Data, MoviesError> {
-        requestData(urlRequest: movieRequest(id: id))
+    func fetchMovie<NetworkResponse>(_ id: String) -> AnyPublisher<[NetworkResponse], MoviesError> where NetworkResponse : MovieModelProtocol {
+        request(with: movieRequest(id: id))
             .mapError { MoviesError($0) }
             .eraseToAnyPublisher()
     }
@@ -39,6 +39,7 @@ private extension NetworkService {
         let url = URL(string: "\(baseURL)/movies")!
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.GET.rawValue
+        request.allHTTPHeaderFields = buildDefaultHTTPHeaderFields()
         return request
     }
 
@@ -46,13 +47,27 @@ private extension NetworkService {
         let url = URL(string: "\(baseURL)/movieDetails?id=\(id)")!
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.GET.rawValue
+        request.allHTTPHeaderFields = buildDefaultHTTPHeaderFields()
         return request
+    }
+
+    func buildDefaultHTTPHeaderFields() -> [String : String]? {
+        var headers: [String : String] = [:]
+        headers["Content-Type"] = "application/json"
+        return headers
     }
 }
 
 // MARK: Base
 
 private extension NetworkService {
+    func request<NetworkResponse>(with urlRequest: URLRequest) -> AnyPublisher<[NetworkResponse], NetworkServiceError> where NetworkResponse: Decodable {
+        return requestData(urlRequest: urlRequest)
+            .decode(type: [NetworkResponse].self, decoder: JSONDecoder())
+            .mapError{ ($0 as? NetworkServiceError) ?? NetworkServiceError.invalidJSON($0.localizedDescription) }
+            .eraseToAnyPublisher()
+    }
+
     func requestData(urlRequest: URLRequest) -> AnyPublisher<Data, NetworkServiceError> {
         urlSession.configuration.timeoutIntervalForRequest = TimeInterval(timeout)
 
