@@ -58,14 +58,16 @@ private extension MoviesView {
 
     func list() -> some View {
         List(viewModel.movies) { movie in
-            HStack {
-                Text(movie.name)
-                    .font(.system(.headline))
+            NavigationLink(destination: MovieDetailView()) {
+                HStack {
+                    Text(movie.name)
+                        .font(.system(.headline))
 
-                Spacer()
+                    Spacer()
 
-                Text("$\(movie.price)")
-                    .font(.system(.caption))
+                    Text("$\(movie.price)")
+                        .font(.system(.caption))
+                }
             }
         }
     }
