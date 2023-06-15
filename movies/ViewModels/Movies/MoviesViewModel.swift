@@ -12,6 +12,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     private(set) var networkService: NetworkServiceProtocol
     private(set) var cancellable = Set<AnyCancellable>()
     private var savedMovies: [MoviesModel] = []
+    private var savedSearchText = ""
 
     @Published var movies: [MoviesModel] = []
     @Published var isAlertPresented: Bool = false
@@ -57,9 +58,15 @@ final class MoviesViewModel: MoviesViewModelProtocol {
 
 private extension MoviesViewModel {
     func filterMovies(_ text: String) {
+        if text.count < savedSearchText.count {
+            movies = savedMovies
+        }
+
         movies = movies.filter {
             String($0.price).contains(text)
         }
+
+        savedSearchText = text
 
         if text.isEmpty {
             movies = savedMovies
