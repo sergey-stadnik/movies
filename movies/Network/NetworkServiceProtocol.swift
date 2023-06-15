@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 enum HTTPMethod: String {
     case POST
@@ -16,5 +17,6 @@ enum HTTPMethod: String {
 }
 
 protocol NetworkServiceProtocol {
-    
+    func listOfMovies() -> AnyPublisher<Data, MoviesError>
+    func movie(_ id: String) -> AnyPublisher<Data, MoviesError>
 }

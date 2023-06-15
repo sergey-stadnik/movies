@@ -7,14 +7,19 @@
 
 import SwiftUI
 
-struct MoviesView: View {
+struct MoviesView<ViewModelType: MoviesViewModelProtocol>: View {
+    @ObservedObject var viewModel: ViewModelType
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            .onAppear {
+                viewModel.fetchMovies()
+            }
     }
 }
 
 struct MoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        MoviesView()
+        MoviesView(viewModel: MoviesViewModel())
     }
 }
