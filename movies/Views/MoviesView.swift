@@ -25,6 +25,9 @@ struct MoviesView<ViewModelType: MoviesViewModelProtocol>: View {
 
             }
             .searchable(text: $viewModel.searchText)
+            .refreshable {
+                viewModel.fetchMovies()
+            }
 
         }
         .alert(viewModel.errorMessage ?? "", isPresented: $viewModel.isAlertPresented) {
