@@ -20,12 +20,12 @@ class NetworkService: NetworkServiceProtocol {
     // MARK: Movies
 
     func fetchMovies<NetworkResponse>() -> AnyPublisher<[NetworkResponse], MoviesError> where NetworkResponse : MoviesModelProtocol {
-        request(with: moviesListRequest())
+        requestList(with: moviesListRequest())
             .mapError { MoviesError($0) }
             .eraseToAnyPublisher()
     }
 
-    func fetchMovie<NetworkResponse>(_ id: String) -> AnyPublisher<[NetworkResponse], MoviesError> where NetworkResponse : MovieModelProtocol {
+    func fetchMovie<NetworkResponse>(_ id: String) -> AnyPublisher<NetworkResponse, MoviesError> where NetworkResponse : MovieModelProtocol {
         request(with: movieRequest(id: id))
             .mapError { MoviesError($0) }
             .eraseToAnyPublisher()
@@ -61,9 +61,16 @@ private extension NetworkService {
 // MARK: Base
 
 private extension NetworkService {
-    func request<NetworkResponse>(with urlRequest: URLRequest) -> AnyPublisher<[NetworkResponse], NetworkServiceError> where NetworkResponse: Decodable {
+    func requestList<NetworkResponse>(with urlRequest: URLRequest) -> AnyPublisher<[NetworkResponse], NetworkServiceError> where NetworkResponse: Decodable {
         return requestData(urlRequest: urlRequest)
             .decode(type: [NetworkResponse].self, decoder: JSONDecoder())
+            .mapError{ ($0 as? NetworkServiceError) ?? NetworkServiceError.invalidJSON($0.localizedDescription) }
+            .eraseToAnyPublisher()
+    }
+
+    func request<NetworkResponse>(with urlRequest: URLRequest) -> AnyPublisher<NetworkResponse, NetworkServiceError> where NetworkResponse: Decodable {
+        return requestData(urlRequest: urlRequest)
+            .decode(type: NetworkResponse.self, decoder: JSONDecoder())
             .mapError{ ($0 as? NetworkServiceError) ?? NetworkServiceError.invalidJSON($0.localizedDescription) }
             .eraseToAnyPublisher()
     }

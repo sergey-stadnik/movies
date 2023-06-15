@@ -26,6 +26,15 @@ extension MovieModel {
         self.rating = try container.decode(String.self, forKey: .rating)
         self.synopsis = try container.decode(String.self, forKey: .synopsis)
     }
+
+    init() {
+        self.image = ""
+        self.meta = ""
+        self.name = ""
+        self.price = .zero
+        self.rating = ""
+        self.synopsis = ""
+    }
 }
 
 private extension MovieModel {

@@ -7,14 +7,28 @@
 
 import SwiftUI
 
-struct MovieDetailView: View {
+struct MovieDetailView<ViewModelType: MovieDetailViewModelProtocol>: View {
+    @StateObject var viewModel: ViewModelType
+
+    @State private var showingAlert = false
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text(viewModel.movie.name)
+        }
+        .alert(viewModel.errorMessage ?? "", isPresented: $viewModel.isAlertPresented) {
+            Button("OK", role: .cancel) {
+                viewModel.isAlertPresented.toggle()
+            }
+        }
+        .onAppear {
+            viewModel.fetchMovie()
+        }
     }
 }
 
 struct MovieDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailView()
+        MovieDetailView(viewModel: MovieDetailViewModel(id: UUID().uuidString))
     }
 }

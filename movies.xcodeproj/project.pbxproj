@@ -21,6 +21,8 @@
 		457FDD8B2A3B257000D29B30 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FDD8A2A3B257000D29B30 /* MovieDetailView.swift */; };
 		457FDD8D2A3B25B000D29B30 /* MoviesViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FDD8C2A3B25B000D29B30 /* MoviesViewModelProtocol.swift */; };
 		457FDD8F2A3B25C700D29B30 /* MoviesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FDD8E2A3B25C700D29B30 /* MoviesViewModel.swift */; };
+		457FDD912A3B524900D29B30 /* MovieDetailViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FDD902A3B524900D29B30 /* MovieDetailViewModelProtocol.swift */; };
+		457FDD932A3B525000D29B30 /* MovieDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 457FDD922A3B525000D29B30 /* MovieDetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		457FDD8A2A3B257000D29B30 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
 		457FDD8C2A3B25B000D29B30 /* MoviesViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModelProtocol.swift; sourceTree = "<group>"; };
 		457FDD8E2A3B25C700D29B30 /* MoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModel.swift; sourceTree = "<group>"; };
+		457FDD902A3B524900D29B30 /* MovieDetailViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewModelProtocol.swift; sourceTree = "<group>"; };
+		457FDD922A3B525000D29B30 /* MovieDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +136,8 @@
 		457FDD842A3B252500D29B30 /* Movie */ = {
 			isa = PBXGroup;
 			children = (
+				457FDD902A3B524900D29B30 /* MovieDetailViewModelProtocol.swift */,
+				457FDD922A3B525000D29B30 /* MovieDetailViewModel.swift */,
 			);
 			path = Movie;
 			sourceTree = "<group>";
@@ -225,7 +231,9 @@
 				457FDD8F2A3B25C700D29B30 /* MoviesViewModel.swift in Sources */,
 				457FDD612A3B0FD600D29B30 /* moviesApp.swift in Sources */,
 				457FDD7D2A3B1DD500D29B30 /* MoviesModelProtocol.swift in Sources */,
+				457FDD912A3B524900D29B30 /* MovieDetailViewModelProtocol.swift in Sources */,
 				457FDD8D2A3B25B000D29B30 /* MoviesViewModelProtocol.swift in Sources */,
+				457FDD932A3B525000D29B30 /* MovieDetailViewModel.swift in Sources */,
 				457FDD8B2A3B257000D29B30 /* MovieDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

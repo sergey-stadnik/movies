@@ -58,7 +58,7 @@ private extension MoviesView {
 
     func list() -> some View {
         List(viewModel.movies) { movie in
-            NavigationLink(destination: MovieDetailView()) {
+            NavigationLink(destination: MovieDetailView<MovieDetailViewModel>(viewModel: MovieDetailViewModel(id: movie.id))) {
                 HStack {
                     Text(movie.name)
                         .font(.system(.headline))
