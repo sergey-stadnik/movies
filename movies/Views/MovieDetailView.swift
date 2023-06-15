@@ -17,6 +17,7 @@ struct MovieDetailView<ViewModelType: MovieDetailViewModelProtocol>: View {
             VStack {
                 Text(viewModel.movie.name)
                     .font(.system(.largeTitle))
+                
                 AsyncImage(url: URL(string: viewModel.movie.image)) { image in
                     image
                         .resizable()

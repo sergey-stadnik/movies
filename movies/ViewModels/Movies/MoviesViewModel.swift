@@ -13,25 +13,25 @@ final class MoviesViewModel: MoviesViewModelProtocol {
     private(set) var cancellable = Set<AnyCancellable>()
     private var savedMovies: [MoviesModel] = []
     private var savedSearchText = ""
-
+    
     @Published var movies: [MoviesModel] = []
     @Published var isAlertPresented: Bool = false
-
+    
     @Published var searchText: String = "" {
         didSet {
             filterMovies(searchText)
         }
     }
-
+    
     var errorMessage: String?
-
+    
     init(networkService: NetworkServiceProtocol = NetworkService()) {
         self.networkService = networkService
     }
-
+    
     func fetchMovies() {
         let publisher: AnyPublisher<[MoviesModel], MoviesError> = networkService.fetchMovies()
-
+        
         publisher
             .sink { [weak self] result in
                 switch result {
@@ -46,11 +46,11 @@ final class MoviesViewModel: MoviesViewModelProtocol {
                 self.savedMovies = modelResult
             }.store(in: &cancellable)
     }
-
+    
     func sortyByPrice() {
         movies = movies.sorted { $0.price < $1.price }
     }
-
+    
     func sortByName() {
         movies = movies.sorted { $0.name < $1.name }
     }
@@ -61,13 +61,13 @@ private extension MoviesViewModel {
         if text.count < savedSearchText.count {
             movies = savedMovies
         }
-
+        
         movies = movies.filter {
             String($0.price).contains(text)
         }
-
+        
         savedSearchText = text
-
+        
         if text.isEmpty {
             movies = savedMovies
         }

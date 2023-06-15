@@ -28,7 +28,6 @@ struct MoviesView<ViewModelType: MoviesViewModelProtocol>: View {
             .refreshable {
                 viewModel.fetchMovies()
             }
-
         }
         .alert(viewModel.errorMessage ?? "", isPresented: $viewModel.isAlertPresented) {
             Button("OK", role: .cancel) {
@@ -42,6 +41,7 @@ struct MoviesView<ViewModelType: MoviesViewModelProtocol>: View {
 }
 
 private extension MoviesView {
+
     func sortingView() -> some View {
         Menu(content: {
             Button("Price") {
