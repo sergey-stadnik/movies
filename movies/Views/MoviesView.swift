@@ -12,11 +12,20 @@ struct MoviesView<ViewModelType: MoviesViewModelProtocol>: View {
 
     @State private var showingAlert = false
 
-    
     var body: some View {
         VStack {
-            sortingView()
-            list()
+            NavigationView {
+                VStack(spacing: .zero) {
+                    list()
+                        .navigationTitle("Movies")
+                }
+                .toolbar {
+                    sortingView()
+                }
+
+            }
+            .searchable(text: $viewModel.searchText)
+
         }
         .alert(viewModel.errorMessage ?? "", isPresented: $viewModel.isAlertPresented) {
             Button("OK", role: .cancel) {
@@ -27,9 +36,11 @@ struct MoviesView<ViewModelType: MoviesViewModelProtocol>: View {
             viewModel.fetchMovies()
         }
     }
+}
 
-    private func sortingView() -> some View {
-        Menu("Sort by:") {
+private extension MoviesView {
+    func sortingView() -> some View {
+        Menu(content: {
             Button("Price") {
                 viewModel.sortyByPrice()
             }
@@ -37,10 +48,12 @@ struct MoviesView<ViewModelType: MoviesViewModelProtocol>: View {
             Button("Name") {
                 viewModel.sortByName()
             }
-        }
+        }, label: {
+            Image(systemName: "list.bullet.rectangle")
+        })
     }
 
-    private func list() -> some View {
+    func list() -> some View {
         List(viewModel.movies) { movie in
             HStack {
                 Text(movie.name)

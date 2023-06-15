@@ -9,6 +9,7 @@ import Foundation
 
 protocol MoviesViewModelProtocol: ObservableObject {
     var movies: [MoviesModel] { get }
+    var searchText: String { get set }
     var isAlertPresented: Bool { get set }
     var errorMessage: String? { get }
 

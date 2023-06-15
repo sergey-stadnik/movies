@@ -11,9 +11,16 @@ import Combine
 final class MoviesViewModel: MoviesViewModelProtocol {
     private(set) var networkService: NetworkServiceProtocol
     private(set) var cancellable = Set<AnyCancellable>()
+    private var savedMovies: [MoviesModel] = []
 
     @Published var movies: [MoviesModel] = []
     @Published var isAlertPresented: Bool = false
+
+    @Published var searchText: String = "" {
+        didSet {
+            filterMovies(searchText)
+        }
+    }
 
     var errorMessage: String?
 
@@ -35,6 +42,7 @@ final class MoviesViewModel: MoviesViewModelProtocol {
             } receiveValue: { [weak self] modelResult in
                 guard let self = self else { return }
                 self.movies = modelResult
+                self.savedMovies = modelResult
             }.store(in: &cancellable)
     }
 
@@ -44,5 +52,17 @@ final class MoviesViewModel: MoviesViewModelProtocol {
 
     func sortByName() {
         movies = movies.sorted { $0.name < $1.name }
+    }
+}
+
+private extension MoviesViewModel {
+    func filterMovies(_ text: String) {
+        movies = movies.filter {
+            String($0.price).contains(text)
+        }
+
+        if text.isEmpty {
+            movies = savedMovies
+        }
     }
 }
